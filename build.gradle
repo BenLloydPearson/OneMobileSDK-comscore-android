@@ -1,0 +1,62 @@
+/*
+ * Copyright (c) 2016 One by Aol : Publishers. All rights reserved.
+ */
+
+repositories {
+    jcenter()
+    maven {
+        url "https://comscore.bintray.com/Analytics"
+    }
+}
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.0'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+    }
+}
+
+apply from: 'tools/travis.gradle'
+apply from: 'tools/git.gradle'
+
+ext {
+    // Android library config
+    BUILD_TOOLS_VERSION = "25.0.2"
+    MIN_API_VERSION = 16
+    TARGET_API_VERSION = 25
+    LIBRARY_VERSION = GIT_VERSION
+
+    // Javadoc configuration
+    JAVADOC_TITLE = "OneMobileSDK comScore plugin javadoc"
+
+    // Bintray publish config
+    BINTRAY_KEY = System.getenv('BINTRAY_KEY')
+    BINTRAY_USER = System.getenv('BINTRAY_USER')
+    GROUP_ID = 'com.aol.one.publishers.android'
+    REPO_NAME = 'one-mobile-comscore'
+    ARTIFACT_ID = 'comscore'
+}
+
+apply from: 'tools/android.gradle'
+apply from: 'tools/javadoc.gradle'
+apply from: 'tools/sources.gradle'
+apply from: 'tools/bintray.gradle'
+
+dependencies {
+    //noinspection GradleDynamicVersion
+    compile 'com.comscore:android-analytics:5.+'
+    compile 'com.aol.one.publishers.android:sdk:2.6'
+
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.robolectric:robolectric:3.2.2'
+    testCompile 'net.javacrumbs.json-unit:json-unit-fluent:1.18.0'
+    testCompile 'org.assertj:assertj-core:1.7.1'
+    testCompile 'com.squareup.assertj:assertj-android:1.1.1'
+    testCompile 'org.mockito:mockito-core:1.10.19'
+}
+
